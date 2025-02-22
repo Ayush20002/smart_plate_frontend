@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <!-- Plate -->
+  <circle cx="24" cy="24" r="18" fill="#F5F5F5" stroke="#AC6AFF" stroke-width="2"/>
+  
+  <!-- Leaf -->
+  <path d="M24 10 C20 12, 18 16, 20 20 C18 22, 20 26, 24 28 C28 26, 30 22, 28 20 C30 16, 28 12, 24 10 Z" fill="#8BC34A" />
+  
+  <!-- Fork and Knife -->
+  <line x1="22" y1="30" x2="22" y2="40" stroke="#AC6AFF" stroke-width="2"/>
+  <line x1="26" y1="30" x2="26" y2="40" stroke="#AC6AFF" stroke-width="2"/>
+  <line x1="24" y1="30" x2="24" y2="40" stroke="#AC6AFF" stroke-width="2"/>
+</svg>

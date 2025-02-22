@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="150" viewBox="0 0 600 150">
+  <g fill="none" fill-rule="evenodd">
+    <!-- Symbol: A simple plate design -->
+    <circle cx="75" cy="75" r="60" stroke="#AC6AFF" stroke-width="10" fill="#FFF" />
+    <path d="M50 100 Q75 120 100 100" stroke="#AC6AFF" stroke-width="8" fill="none" />
+    
+    <!-- Text: SmartPlate -->
+    <text x="180" y="90" font-family="Arial, sans-serif" font-size="70" font-weight="bold" fill="#AC6AFF">
+      SmartPlate
+    </text>
+  </g>
+</svg>
