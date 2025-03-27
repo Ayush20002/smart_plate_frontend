@@ -197,16 +197,18 @@ const DietForm = () => {
                   <label className="block text-gray-800 body-2">Diet Preference</label>
                   <div className="flex gap-4">
                     {['Vegetarian', 'Non-Vegetarian'].map((type) => (
-                      <label key={type} className="flex items-center space-x-2 p-2 bg-cyan-100 rounded-lg flex-1 justify-center">
+                      <label key={type} className="flex items-center space-x-2 p-2 bg-cyan-100 rounded-lg flex-1 justify-center group">
                         <input
                           type="radio"
                           name="diet_type"
                           value={type === 'Vegetarian' ? 'veg' : 'non-veg'}
                           checked={formData.diet_type === (type === 'Vegetarian' ? 'veg' : 'non-veg')}
                           onChange={handleInputChange}
-                          className="form-radio text-amber-500"
+                          className="form-radio text-white checked:text-black border-2 border-gray-300 focus:ring-0 focus:ring-offset-0 cursor-pointer"
                         />
-                        <span className="text-gray-800 body-2">{type}</span>
+                        <span className="text-gray-800 body-2 group-has-[input:checked]:font-medium">
+                          {type}
+                        </span>
                       </label>
                     ))}
                   </div>
