@@ -91,7 +91,7 @@ const DietForm = () => {
                     name="age"
                     value={formData.age}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-white rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500"
+                    className="w-full p-3 bg-white text-black rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500"
                     min="18"
                     max="120"
                     required
@@ -105,7 +105,7 @@ const DietForm = () => {
                     name="sex"
                     value={formData.sex}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-white rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500"
+                    className="w-full p-3 bg-white text-black rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500"
                     required
                   >
                     <option value="male">Male</option>
@@ -121,7 +121,7 @@ const DietForm = () => {
                     name="height"
                     value={formData.height}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-white rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500"
+                    className="w-full p-3 bg-white text-black rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500"
                     min="100"
                     max="250"
                     required
@@ -136,7 +136,7 @@ const DietForm = () => {
                     name="weight"
                     value={formData.weight}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-white rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500"
+                    className="w-full p-3 bg-white text-black rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500"
                     min="30"
                     max="300"
                     required
@@ -151,7 +151,7 @@ const DietForm = () => {
                     name="country"
                     value={formData.country}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-white rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500"
+                    className="w-full p-3 bg-white text-black rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500"
                     required
                   />
                 </div>
@@ -164,7 +164,7 @@ const DietForm = () => {
                     name="state"
                     value={formData.state}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-white rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500"
+                    className="w-full p-3 bg-white text-black rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500"
                     required
                   />
                 </div>
@@ -178,7 +178,7 @@ const DietForm = () => {
                     name="health_conditions"
                     value={formData.health_conditions}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-white rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 resize-none"
+                    className="w-full p-3 bg-white text-black rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 resize-none"
                     placeholder="e.g., Diabetes, Hypertension, Food Allergies"
                     rows="3"
                   />
