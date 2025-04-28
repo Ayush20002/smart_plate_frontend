@@ -397,7 +397,7 @@ const DietForm = () => {
                 <h3 className="text-xl font-semibold text-gray-800">Weekly Meal Plan</h3>
                 {/* Explanatory Note for Glucose Spike */}
                  <div className="bg-indigo-50 p-3 rounded-lg ring-1 ring-indigo-100 text-indigo-800 text-sm">
-                     💡 <span className="font-medium">Glucose Spike Info:</span> The '🩸 Low/Moderate/High' value is an AI prediction based on meal content. Use your glucometer readings to verify these estimates. This is not medical advice.
+                     💡 <span className="font-medium">Glucose Spike Info:</span> The '🩸 Low/Moderate/High' value is an AI prediction based on meal content.
                  </div>
 
                 {DAY_ORDER.map(day => (
