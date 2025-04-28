@@ -17,8 +17,10 @@ const DietForm = () => {
   const [dietPlan, setDietPlan] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  // Define the desired order for displaying days
+
+  // Define the desired order for displaying days AND meals
   const DAY_ORDER = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+  const MEAL_ORDER = ['breakfast', 'lunch', 'snacks', 'dinner']; // <-- Define desired meal order
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -99,13 +101,9 @@ const DietForm = () => {
   // Handles changes in form inputs (text, number, select, radio)
   const handleInputChange = (e) => {
     const { name, value, type } = e.target;
-
-    // Basic validation within input change can be added here if desired
-    // e.g., prevent non-numeric input for number fields
-
     setFormData(prev => ({
       ...prev,
-      [name]: value // Directly use value for text, number, select, radio
+      [name]: value
     }));
   };
 
@@ -122,6 +120,7 @@ const DietForm = () => {
   // Helper function to render meal details safely
   const renderMealDetails = (details) => {
     if (!details) {
+        // This case should ideally not be hit if we check before calling, but good failsafe
         return <p className="body-2 text-gray-500">Meal details not available.</p>;
     }
     return (
@@ -164,7 +163,7 @@ const DietForm = () => {
 
         {/* Conditional Rendering: Show Form or Diet Plan */}
         {!dietPlan ? (
-          // --- Diet Plan Form ---
+          // --- Diet Plan Form (Code remains exactly the same as previous version) ---
           <div className="max-w-2xl mx-auto bg-white rounded-2xl p-6 md:p-8 shadow-xl ring-1 ring-gray-900/5">
             <h1 className="text-3xl font-bold tracking-tight text-center mb-8 text-gray-800">Personalized Diet Planner</h1>
 
@@ -181,7 +180,7 @@ const DietForm = () => {
                     value={formData.age}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-white text-gray-900 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-150 ease-in-out"
-                    min="1" // Allow younger ages if needed, adjust as necessary
+                    min="1"
                     max="120"
                     required
                     aria-describedby="age-description"
@@ -202,7 +201,6 @@ const DietForm = () => {
                   >
                     <option value="male">Male</option>
                     <option value="female">Female</option>
-                     {/* Add 'Other' or 'Prefer not to say' if appropriate */}
                   </select>
                    <p className="text-xs text-gray-500">Select your gender.</p>
                 </div>
@@ -219,7 +217,7 @@ const DietForm = () => {
                     className="w-full p-3 bg-white text-gray-900 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-150 ease-in-out"
                     min="50"
                     max="300"
-                    step="0.1" // Allow decimals if needed
+                    step="0.1"
                     required
                     aria-describedby="height-description"
                   />
@@ -238,7 +236,7 @@ const DietForm = () => {
                     className="w-full p-3 bg-white text-gray-900 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-150 ease-in-out"
                     min="10"
                     max="500"
-                    step="0.1" // Allow decimals
+                    step="0.1"
                     required
                      aria-describedby="weight-description"
                   />
@@ -287,7 +285,7 @@ const DietForm = () => {
                   id="health_conditions"
                   name="health_conditions"
                   value={formData.health_conditions}
-                  onChange={handleHealthConditionsChange} // Use specific handler
+                  onChange={handleHealthConditionsChange}
                   className="w-full p-3 bg-white text-gray-900 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 resize-none transition duration-150 ease-in-out"
                   placeholder="e.g., Diabetes, Hypertension, Food Allergies"
                   rows="3"
@@ -297,10 +295,8 @@ const DietForm = () => {
                    List any relevant health conditions separated by commas. Leave blank if none.
                    Each condition should be letters/spaces only, min 3 chars.
                 </p>
-                 {/* Optional: Inline validation feedback for health conditions */}
                  {formData.health_conditions.split(',').some(cond => {
                     const trimmed = cond.trim();
-                    // Check only non-empty conditions for validity
                     return trimmed && (trimmed.length < 3 || !/^[a-zA-Z\s]+$/.test(trimmed));
                   }) && (
                     <div className="text-rose-600 text-xs mt-1">
@@ -359,6 +355,7 @@ const DietForm = () => {
               </Button>
             </form>
           </div>
+          // --- End of Form ---
         ) : (
           // --- Diet Plan Display ---
           <div className="max-w-4xl mx-auto bg-white rounded-2xl p-6 md:p-8 shadow-xl space-y-8 ring-1 ring-gray-900/5">
@@ -367,30 +364,30 @@ const DietForm = () => {
              {/* Error Display if plan generation succeeded but has issues */}
              {error && (
                 <div className="text-rose-600 text-sm p-3 bg-rose-50 rounded-lg border border-rose-200">
-                  <strong>Note:</strong> {error} {/* Display non-critical errors/warnings here if needed */}
+                  <strong>Note:</strong> {error}
                 </div>
              )}
 
             {/* Nutritional Goals */}
             {dietPlan.nutritional_goals && (
-                <div className="bg-gradient-to-r from-cyan-50 to-blue-100 p-5 rounded-xl ring-1 ring-cyan-200">
-                  <h3 className="text-xl font-semibold mb-4 text-cyan-800">Estimated Daily Nutritional Goals</h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-                    {[
-                      { label: 'Calories', value: dietPlan.nutritional_goals.daily_calories, unit: '' },
-                      { label: 'Protein', value: dietPlan.nutritional_goals.protein_grams, unit: 'g' },
-                      { label: 'Carbs', value: dietPlan.nutritional_goals.carb_grams, unit: 'g' },
-                      { label: 'Fats', value: dietPlan.nutritional_goals.fat_grams, unit: 'g' },
-                    ].map(item => (
-                      <div key={item.label} className="bg-white p-3 rounded-lg shadow-sm ring-1 ring-gray-200">
-                        <p className="text-xs sm:text-sm text-gray-600">{item.label}</p>
-                        <p className="text-lg sm:text-xl font-bold text-gray-800">
-                          {item.value ?? 'N/A'}{item.unit}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                 <div className="bg-gradient-to-r from-cyan-50 to-blue-100 p-5 rounded-xl ring-1 ring-cyan-200">
+                   <h3 className="text-xl font-semibold mb-4 text-cyan-800">Estimated Daily Nutritional Goals</h3>
+                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                     {[
+                       { label: 'Calories', value: dietPlan.nutritional_goals.daily_calories, unit: '' },
+                       { label: 'Protein', value: dietPlan.nutritional_goals.protein_grams, unit: 'g' },
+                       { label: 'Carbs', value: dietPlan.nutritional_goals.carb_grams, unit: 'g' },
+                       { label: 'Fats', value: dietPlan.nutritional_goals.fat_grams, unit: 'g' },
+                     ].map(item => (
+                       <div key={item.label} className="bg-white p-3 rounded-lg shadow-sm ring-1 ring-gray-200">
+                         <p className="text-xs sm:text-sm text-gray-600">{item.label}</p>
+                         <p className="text-lg sm:text-xl font-bold text-gray-800">
+                           {item.value ?? 'N/A'}{item.unit}
+                         </p>
+                       </div>
+                     ))}
+                   </div>
+                 </div>
             )}
 
 
@@ -409,13 +406,21 @@ const DietForm = () => {
                       <h4 className="text-lg font-semibold capitalize mb-4 text-gray-700">{day}</h4>
                       {/* Grid for meals */}
                       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                        {/* Render meals safely */}
-                        {Object.entries(dietPlan.weekly_plan[day]).map(([mealType, details]) => (
-                          <div key={mealType} className="bg-white p-4 rounded-lg shadow-sm ring-1 ring-gray-100 flex flex-col justify-between min-h-[120px]">
-                            <h5 className="text-sm font-semibold capitalize mb-2 text-gray-800">{mealType}</h5>
-                            {renderMealDetails(details)} {/* Use helper function */}
-                          </div>
-                        ))}
+                        {/* --- MODIFICATION START: Iterate using MEAL_ORDER --- */}
+                        {MEAL_ORDER.map(mealType => {
+                          // Safely access meal details using optional chaining
+                          const details = dietPlan.weekly_plan[day]?.[mealType];
+
+                          // Only render the card if details for this mealType exist
+                          return details ? (
+                            <div key={mealType} className="bg-white p-4 rounded-lg shadow-sm ring-1 ring-gray-100 flex flex-col justify-between min-h-[120px]">
+                              {/* Capitalize meal type for display */}
+                              <h5 className="text-sm font-semibold capitalize mb-2 text-gray-800">{mealType}</h5>
+                              {renderMealDetails(details)} {/* Use helper function */}
+                            </div>
+                          ) : null; // Render nothing if this meal type is missing for the day
+                        })}
+                        {/* --- MODIFICATION END --- */}
                       </div>
                     </div>
                   ) : null // Don't render anything if the day is missing
@@ -426,44 +431,44 @@ const DietForm = () => {
 
             {/* Recommended vs Avoid Foods */}
              {(dietPlan.recommended_foods?.length > 0 || dietPlan.foods_to_avoid?.length > 0) && (
-                <div className="grid md:grid-cols-2 gap-6">
-                  {dietPlan.recommended_foods?.length > 0 && (
-                    <div className="bg-emerald-50 rounded-lg p-5 ring-1 ring-emerald-200">
-                      <h3 className="text-lg font-semibold text-emerald-800 mb-3">✅ Recommended Foods</h3>
-                      <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
-                        {dietPlan.recommended_foods.map((food, index) => (
-                          <li key={`rec-${index}`}>{food}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {dietPlan.foods_to_avoid?.length > 0 && (
-                    <div className="bg-rose-50 rounded-lg p-5 ring-1 ring-rose-200">
-                      <h3 className="text-lg font-semibold text-rose-800 mb-3">❌ Foods to Avoid</h3>
-                      <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
-                        {dietPlan.foods_to_avoid.map((food, index) => (
-                          <li key={`avoid-${index}`}>{food}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
+                 <div className="grid md:grid-cols-2 gap-6">
+                   {dietPlan.recommended_foods?.length > 0 && (
+                     <div className="bg-emerald-50 rounded-lg p-5 ring-1 ring-emerald-200">
+                       <h3 className="text-lg font-semibold text-emerald-800 mb-3">✅ Recommended Foods</h3>
+                       <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
+                         {dietPlan.recommended_foods.map((food, index) => (
+                           <li key={`rec-${index}`}>{food}</li>
+                         ))}
+                       </ul>
+                     </div>
+                   )}
+                   {dietPlan.foods_to_avoid?.length > 0 && (
+                     <div className="bg-rose-50 rounded-lg p-5 ring-1 ring-rose-200">
+                       <h3 className="text-lg font-semibold text-rose-800 mb-3">❌ Foods to Avoid</h3>
+                       <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
+                         {dietPlan.foods_to_avoid.map((food, index) => (
+                           <li key={`avoid-${index}`}>{food}</li>
+                         ))}
+                       </ul>
+                     </div>
+                   )}
+                 </div>
              )}
 
 
             {/* Cooking Tips */}
             {dietPlan.cooking_tips?.length > 0 && (
-                <div className="bg-amber-50 rounded-lg p-5 ring-1 ring-amber-200">
-                  <h3 className="text-lg font-semibold text-amber-800 mb-3">👩‍🍳 Cooking Tips</h3>
-                  <ul className="space-y-2 text-sm text-gray-700">
-                    {dietPlan.cooking_tips.map((tip, index) => (
-                       <li key={`tip-${index}`} className="flex items-start gap-2">
-                          <span className="text-amber-600 mt-1">●</span>
-                          <span>{tip}</span>
-                       </li>
-                    ))}
-                  </ul>
-                </div>
+                 <div className="bg-amber-50 rounded-lg p-5 ring-1 ring-amber-200">
+                   <h3 className="text-lg font-semibold text-amber-800 mb-3">👩‍🍳 Cooking Tips</h3>
+                   <ul className="space-y-2 text-sm text-gray-700">
+                     {dietPlan.cooking_tips.map((tip, index) => (
+                        <li key={`tip-${index}`} className="flex items-start gap-2">
+                           <span className="text-amber-600 mt-1">●</span>
+                           <span>{tip}</span>
+                        </li>
+                     ))}
+                   </ul>
+                 </div>
             )}
 
             {/* Cultural Considerations */}
@@ -477,11 +482,9 @@ const DietForm = () => {
             {/* Create New Plan Button */}
             <Button
               onClick={() => {
-                setDietPlan(null); // Clear the current plan
-                setError(''); // Clear any previous errors
-                // Optionally reset form fields to default or clear them
-                // setFormData({ ...initialFormData });
-                window.scrollTo(0, 0); // Scroll to top
+                setDietPlan(null);
+                setError('');
+                window.scrollTo(0, 0);
               }}
               className="w-full py-3 text-lg font-semibold bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-150 ease-in-out"
             >
