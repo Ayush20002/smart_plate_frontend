@@ -395,12 +395,15 @@ const DietForm = () => {
             {dietPlan.weekly_plan && (
               <div className="space-y-6">
                 <h3 className="text-xl font-semibold text-gray-800">Weekly Meal Plan</h3>
-                {/* Explanatory Note for Glucose Spike */}
-                 <div className="bg-indigo-50 p-3 rounded-lg ring-1 ring-indigo-100 text-indigo-800 text-sm mb-4"> {/* Added mb-4 for spacing */}
+
+                {/* --- CORRECTED: Explanatory Note for Glucose Spike --- */}
+                 <div className="bg-indigo-50 p-3 rounded-lg ring-1 ring-indigo-100 text-indigo-800 text-sm mb-4">
                      💡 <span className="font-medium">Glucose Spike Info:</span> The '🩸 Low/Moderate/High' value is a lab driven value based on meal content, predicting the potential impact on blood glucose levels.
                  </div>
+                {/* --- END: Corrected Explanatory Note --- */}
 
-                {/* --- NEW: Glucose Spike Level Table --- */}
+
+                {/* --- Glucose Spike Level Table (Should be visible below the note) --- */}
                 <div className="mb-6 p-4 border border-gray-200 rounded-lg bg-gray-50">
                     <h4 className="text-md font-semibold text-gray-700 mb-3">Glucose Spike Level Guide (Estimated Post-Meal Values)</h4>
                     <table className="w-full text-sm text-left text-gray-600 border-collapse">
@@ -436,13 +439,14 @@ const DietForm = () => {
                 {/* --- END: Glucose Spike Level Table --- */}
 
 
+                {/* --- Daily Meal Display Loop --- */}
                 {DAY_ORDER.map(day => (
                   dietPlan.weekly_plan[day] ? ( // Check if day exists in the plan
                     <div key={day} className="bg-gray-50 p-4 md:p-6 rounded-xl ring-1 ring-gray-200">
                       <h4 className="text-lg font-semibold capitalize mb-4 text-gray-700">{day}</h4>
                       {/* Grid for meals */}
                       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                        {/* --- Iterate using MEAL_ORDER --- */}
+                        {/* Iterate using MEAL_ORDER */}
                         {MEAL_ORDER.map(mealType => {
                           // Safely access meal details using optional chaining
                           const details = dietPlan.weekly_plan[day]?.[mealType];
@@ -456,11 +460,11 @@ const DietForm = () => {
                             </div>
                           ) : null; // Render nothing if this meal type is missing for the day
                         })}
-                        {/* --- End of Iteration --- */}
                       </div>
                     </div>
                   ) : null // Don't render anything if the day is missing
                 ))}
+                 {/* --- END: Daily Meal Display Loop --- */}
               </div>
             )}
 
