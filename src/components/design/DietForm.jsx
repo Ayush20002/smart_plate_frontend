@@ -134,7 +134,7 @@ const DietForm = () => {
                 {/* Display Glucose Spike Prediction if available */}
                 {details.glucose_spike_prediction && (
                     <span
-                        title="Predicted Glucose Spike"
+                        title="Predicted Glucose Spike Level" // Updated title for clarity
                         className="font-medium text-indigo-600 whitespace-nowrap" // Added whitespace-nowrap
                     >
                         🩸 {details.glucose_spike_prediction}
@@ -163,7 +163,7 @@ const DietForm = () => {
 
         {/* Conditional Rendering: Show Form or Diet Plan */}
         {!dietPlan ? (
-          // --- Diet Plan Form (Code remains exactly the same as previous version) ---
+          // --- Diet Plan Form ---
           <div className="max-w-2xl mx-auto bg-white rounded-2xl p-6 md:p-8 shadow-xl ring-1 ring-gray-900/5">
             <h1 className="text-3xl font-bold tracking-tight text-center mb-8 text-gray-800">Personalized Diet Planner</h1>
 
@@ -396,9 +396,45 @@ const DietForm = () => {
               <div className="space-y-6">
                 <h3 className="text-xl font-semibold text-gray-800">Weekly Meal Plan</h3>
                 {/* Explanatory Note for Glucose Spike */}
-                 <div className="bg-indigo-50 p-3 rounded-lg ring-1 ring-indigo-100 text-indigo-800 text-sm">
-                     💡 <span className="font-medium">Glucose Spike Info:</span> The '🩸 Low/Moderate/High' value is a lab driven value based on meal content.
+                 <div className="bg-indigo-50 p-3 rounded-lg ring-1 ring-indigo-100 text-indigo-800 text-sm mb-4"> {/* Added mb-4 for spacing */}
+                     💡 <span className="font-medium">Glucose Spike Info:</span> The '🩸 Low/Moderate/High' value is a lab driven value based on meal content, predicting the potential impact on blood glucose levels.
                  </div>
+
+                {/* --- NEW: Glucose Spike Level Table --- */}
+                <div className="mb-6 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                    <h4 className="text-md font-semibold text-gray-700 mb-3">Glucose Spike Level Guide (Estimated Post-Meal Values)</h4>
+                    <table className="w-full text-sm text-left text-gray-600 border-collapse">
+                        <thead>
+                            <tr className="bg-gray-100">
+                                <th className="border border-gray-300 p-2">Category</th>
+                                <th className="border border-gray-300 p-2">Estimated Glucose Range (mg/dL)</th>
+                                <th className="border border-gray-300 p-2">General Meaning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td className="border border-gray-300 p-2 font-medium text-green-700">Low</td>
+                                <td className="border border-gray-300 p-2">90 - 115 mg/dL*</td>
+                                <td className="border border-gray-300 p-2">Minimal expected impact on blood glucose after the meal.</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-gray-300 p-2 font-medium text-orange-700">Moderate</td>
+                                <td className="border border-gray-300 p-2">115 - 150 mg/dL*</td>
+                                <td className="border border-gray-300 p-2">A noticeable, but generally manageable, increase in blood glucose.</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-gray-300 p-2 font-medium text-red-700">High</td>
+                                <td className="border border-gray-300 p-2">> 150 mg/dL* (up to 250/300 mg/dL)</td>
+                                <td className="border border-gray-300 p-2">Significant potential increase in blood glucose; may require attention depending on individual health goals.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p className="text-xs text-gray-500 mt-2">
+                        *Note: These mg/dL values represent typical *absolute* post-meal glucose level targets or ranges often used in clinical settings. The 'Low/Moderate/High' prediction specifically relates to the *impact* of the meal itself. Actual results vary based on individual metabolism, portion size, and other factors. Always consult with a healthcare professional for personalized advice.
+                    </p>
+                </div>
+                {/* --- END: Glucose Spike Level Table --- */}
+
 
                 {DAY_ORDER.map(day => (
                   dietPlan.weekly_plan[day] ? ( // Check if day exists in the plan
@@ -406,7 +442,7 @@ const DietForm = () => {
                       <h4 className="text-lg font-semibold capitalize mb-4 text-gray-700">{day}</h4>
                       {/* Grid for meals */}
                       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                        {/* --- MODIFICATION START: Iterate using MEAL_ORDER --- */}
+                        {/* --- Iterate using MEAL_ORDER --- */}
                         {MEAL_ORDER.map(mealType => {
                           // Safely access meal details using optional chaining
                           const details = dietPlan.weekly_plan[day]?.[mealType];
@@ -420,7 +456,7 @@ const DietForm = () => {
                             </div>
                           ) : null; // Render nothing if this meal type is missing for the day
                         })}
-                        {/* --- MODIFICATION END --- */}
+                        {/* --- End of Iteration --- */}
                       </div>
                     </div>
                   ) : null // Don't render anything if the day is missing
@@ -484,7 +520,7 @@ const DietForm = () => {
               onClick={() => {
                 setDietPlan(null);
                 setError('');
-                window.scrollTo(0, 0);
+                window.scrollTo(0, 0); // Scroll to top when showing the form again
               }}
               className="w-full py-3 text-lg font-semibold bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-150 ease-in-out"
             >
